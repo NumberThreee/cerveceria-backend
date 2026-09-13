@@ -20,7 +20,8 @@ public class ProductoController {
 
     @GetMapping
     public List<Producto> obtenerTodos() {
-        return productoRepository.findAll();
+        // Devuelve solo los productos activos con stock disponible (> 0)
+        return productoRepository.findByActivoTrueAndStockGreaterThan(0);
     }
 
     @GetMapping("/{id}")

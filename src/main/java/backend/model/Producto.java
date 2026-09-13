@@ -15,21 +15,26 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private Double precio;
+    private Integer stock;
     private String categoria;
     private String imagenUrl;
-    private Boolean disponible;
+    private Boolean activo;
 
+    
     public Producto() {}
 
-    public Producto(String nombre, String descripcion, Double precio, String categoria, String imagenUrl, Boolean disponible) {
+    
+    public Producto(String nombre, String descripcion, Double precio, Integer stock, String categoria, String imagenUrl, Boolean activo) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
+        this.stock = stock;
         this.categoria = categoria;
         this.imagenUrl = imagenUrl;
-        this.disponible = disponible;
+        this.activo = activo;
     }
 
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -42,12 +47,15 @@ public class Producto {
     public Double getPrecio() { return precio; }
     public void setPrecio(Double precio) { this.precio = precio; }
 
+    public Integer getStock() { return stock; }
+    public void setStock(Integer stock) { this.stock = stock; }
+
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
 
     public String getImagenUrl() { return imagenUrl; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 
-    public Boolean getDisponible() { return disponible; }
-    public void setDisponible(Boolean disponible) { this.disponible = disponible; }
+    public Boolean getActivo() { return activo; }
+    public void setActivo(Boolean activo) { this.activo = activo; }
 }
