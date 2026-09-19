@@ -1,11 +1,9 @@
 package backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "empleado")
 public class Empleado {
 
     @Id
@@ -13,27 +11,22 @@ public class Empleado {
     private Long id;
 
     private String nombre;
-    private String pinAcceso;
-    private String rol;
+
+    private String pin; // <--- ASEGURATE DE TENER ESTE CAMPO
 
     public Empleado() {}
 
-    public Empleado(String nombre, String pinAcceso, String rol) {
+    public Empleado(String nombre, String pin) {
         this.nombre = nombre;
-        this.pinAcceso = pinAcceso;
-        this.rol = rol;
+        this.pin = pin;
     }
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getPinAcceso() { return pinAcceso; }
-    public void setPinAcceso(String pinAcceso) { this.pinAcceso = pinAcceso; }
-
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+    public String getPin() { return pin; }
+    public void setPin(String pin) { this.pin = pin; }
 }

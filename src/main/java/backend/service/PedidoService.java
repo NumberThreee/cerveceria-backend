@@ -103,4 +103,66 @@ public class PedidoService {
 
         return new CheckoutResponseDTO(pedidoGuardado.getId(), initPoint);
     }
+
+    @Transactional
+public void procesarNotificacionPago(String paymentId) {
+    try {
+        if (!"TEST-TOKEN-MOCK".equals(mpAccessToken)) {
+            MercadoPagoConfig.setAccessToken(mpAccessToken);
+            com.mercadopago.client.payment.PaymentClient paymentClient = new com.mercadopago.client.payment.PaymentClient();
+            com.mercadopago.resources.payment.Payment payment = paymentClient.get(Long.parseLong(paymentId));
+
+            if ("approved".equals(payment.getStatus())) {
+                String externalReference = payment.getExternalReference();
+                if (externalReference != null) {
+                    Long pedidoId = Long.parseLong(externalReference);
+                    actualizarEstadoAPagado(pedidoId);
+                }
+            }
+        } else {
+            // Modo simulación local
+            if (paymentId != null && paymentId.startsWith("mock_")) {
+                Long pedidoId = Long.parseLong(paymentId.replace("mock_", ""));
+                actualizarEstadoAPagado(pedidoId);
+            }
+        }
+    } catch (Exception e) {
+        System.err.println("Error procesando webhook de Mercado Pago: " + e.getMessage());
+    }
+}
+
+private void actualizarEstadoAPagado(Long pedidoId) {
+    Pedido pedido = pedidoRepository.findById(pedidoId).orElse(null);
+    if (pedido != null && pedido.getEstado() == EstadoPedido.PENDIENTE) {
+        pedido.setEstado(EstadoPedido.PAGADO);
+        
+        // Descontar stock de los productos
+        for (DetallePedido detalle : pedido.getDetalles()) {
+            Producto producto = detalle.getProducto();
+            int nuevoStock = producto.getStock() - detalle.getCantidad();
+            producto.setStock(Math.max(nuevoStock, 0));
+            productoRepository.save(producto);
+        }
+
+        pedidoRepository.save(pedido);
+    }
+}
+
+public List<Pedido> obtenerPedidosPorEstado(EstadoPedido estado) {
+    return pedidoRepository.findByEstado(estado);
+}
+
+@Transactional
+public Pedido entregarPedido(Long pedidoId) {
+    Pedido pedido = pedidoRepository.findById(pedidoId)
+            .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+    
+    if (pedido.getEstado() != EstadoPedido.PAGADO) {
+        throw new RuntimeException("Solo se pueden entregar pedidos que estén en estado PAGADO");
+    }
+
+    pedido.setEstado(EstadoPedido.ENTREGADO);
+    return pedidoRepository.save(pedido);
+}
+
 }

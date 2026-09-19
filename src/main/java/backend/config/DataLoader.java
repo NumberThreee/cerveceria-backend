@@ -26,6 +26,8 @@ public class DataLoader implements CommandLineRunner {
         productoRepository.save(new Producto("Papas Rusticas", "Con cheddar, bacon y verdeo", 6500.0, 20, "Comida", "", true));
         
         // Empleado de prueba (para la barra)
-        empleadoRepository.save(new Empleado("Rodrigo", "1234", "BARRA"));
+        if (empleadoRepository.count() == 0) {
+            empleadoRepository.save(new Empleado("Camarero Barra", "1234"));
+        }
     }
 }
