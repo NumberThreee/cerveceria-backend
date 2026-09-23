@@ -6,12 +6,12 @@ public class SesionResponse {
 
     @JsonProperty("cliente_uuid")
     private String clienteUuid;
-
     public SesionResponse() {
     }
 
     public SesionResponse(String clienteUuid) {
         this.clienteUuid = clienteUuid;
+        
     }
 
     public String getClienteUuid() {
@@ -21,4 +21,5 @@ public class SesionResponse {
     public void setClienteUuid(String clienteUuid) {
         this.clienteUuid = clienteUuid;
     }
+
 }
