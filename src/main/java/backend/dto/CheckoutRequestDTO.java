@@ -2,7 +2,10 @@ package backend.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CheckoutRequestDTO {
+    @JsonProperty("cliente_uuid") 
     private String clienteUuid;
     private List<ItemCheckoutDTO> items;
 

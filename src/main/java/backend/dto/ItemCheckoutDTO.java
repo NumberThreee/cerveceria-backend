@@ -1,6 +1,9 @@
 package backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ItemCheckoutDTO {
+    @JsonProperty("id_producto")
     private Long idProducto;
     private Integer cantidad;
 

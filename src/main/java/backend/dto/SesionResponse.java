@@ -7,12 +7,11 @@ public class SesionResponse {
     @JsonProperty("cliente_uuid")
     private String clienteUuid;
 
-    @JsonProperty("numero_mesa")
-    private Integer numeroMesa;
+    public SesionResponse() {
+    }
 
-    public SesionResponse(String clienteUuid, Integer numeroMesa) {
+    public SesionResponse(String clienteUuid) {
         this.clienteUuid = clienteUuid;
-        this.numeroMesa = numeroMesa;
     }
 
     public String getClienteUuid() {
@@ -21,13 +20,5 @@ public class SesionResponse {
 
     public void setClienteUuid(String clienteUuid) {
         this.clienteUuid = clienteUuid;
-    }
-
-    public Integer getNumeroMesa() {
-        return numeroMesa;
-    }
-
-    public void setNumeroMesa(Integer numeroMesa) {
-        this.numeroMesa = numeroMesa;
     }
 }
