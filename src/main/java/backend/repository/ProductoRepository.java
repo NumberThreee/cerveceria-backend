@@ -10,4 +10,6 @@ import java.util.List;
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // Spring Data JPA arma la consulta SQL automáticamente fijándose en el nombre del método
     List<Producto> findByActivoTrueAndStockGreaterThan(Integer stock);
+
+    List<Producto> findByCategoriaIgnoreCaseAndActivoTrueAndStockGreaterThan(String categoria, Integer stock);
 }

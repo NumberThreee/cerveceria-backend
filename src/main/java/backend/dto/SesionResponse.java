@@ -1,17 +1,33 @@
 package backend.dto;
 
-public class SesionResponse {
-    private String clienteUuid;
-    private String mensaje;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public SesionResponse(String clienteUuid, String mensaje) {
+public class SesionResponse {
+
+    @JsonProperty("cliente_uuid")
+    private String clienteUuid;
+
+    @JsonProperty("numero_mesa")
+    private Integer numeroMesa;
+
+    public SesionResponse(String clienteUuid, Integer numeroMesa) {
         this.clienteUuid = clienteUuid;
-        this.mensaje = mensaje;
+        this.numeroMesa = numeroMesa;
     }
 
-    public String getClienteUuid() { return clienteUuid; }
-    public void setClienteUuid(String clienteUuid) { this.clienteUuid = clienteUuid; }
+    public String getClienteUuid() {
+        return clienteUuid;
+    }
 
-    public String getMensaje() { return mensaje; }
-    public void setMensaje(String mensaje) { this.mensaje = mensaje; }
+    public void setClienteUuid(String clienteUuid) {
+        this.clienteUuid = clienteUuid;
+    }
+
+    public Integer getNumeroMesa() {
+        return numeroMesa;
+    }
+
+    public void setNumeroMesa(Integer numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
 }
