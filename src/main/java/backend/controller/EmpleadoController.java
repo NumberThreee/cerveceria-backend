@@ -23,23 +23,30 @@ public class EmpleadoController {
         this.empleadoRepository = empleadoRepository;
     }
 
-    // Listar pedidos listos para despachar (Estado: PAGADO)
+    // GET /api/empleado/pedidos
+    // Header requerido: X-Empleado-Pin
+    // Devuelve la lista de pedidos con estado PAGADO (esperando entrega).
+    // La app de mozo llama a este endpoint apenas se ingresa el PIN, y
+    // también con el botón "Actualizar" de la lista.
     @GetMapping("/pedidos")
     public ResponseEntity<?> obtenerPedidosParaDespacho(@RequestHeader("X-Empleado-Pin") String pin) {
         if (!validarPin(pin)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("PIN de empleado inválido");
         }
-        
+
         List<Pedido> pedidosPagados = pedidoService.obtenerPedidosPorEstado(EstadoPedido.PAGADO);
         return ResponseEntity.ok(pedidosPagados);
     }
 
-    // Marcar pedido como ENTREGADO
+    // POST /api/empleado/pedidos/{idPedido}/entregar
+    // Header requerido: X-Empleado-Pin
+    // Marca el pedido como ENTREGADO. La app lo llama cuando el mozo toca
+    // "Marcar como entregado" en el detalle del pedido.
     @PostMapping("/pedidos/{idPedido}/entregar")
     public ResponseEntity<?> entregarPedido(
             @PathVariable Long idPedido,
             @RequestHeader("X-Empleado-Pin") String pin) {
-            
+
         if (!validarPin(pin)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("PIN de empleado inválido");
         }
